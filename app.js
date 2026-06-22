@@ -449,16 +449,152 @@
   }
 
   // ============================================================
-  // INIT
+  // DAYS COUNTER BAR
   // ============================================================
+  function renderDaysCounter() {
+    const SEM_END = new Date(2026, 10, 21);   // ~Nov 21
+    const SEM_START = new Date(2026, 5, 22);  // Jun 22
+    const EXAM_START = new Date(2026, 9, 29); // Oct 29
+    const ACM_END = new Date(2026, 6, 13);    // Jul 13 (Day 21)
+
+    const semDaysTotal = Math.round((SEM_END - SEM_START) / 86400000);
+    const semDaysPassed = Math.max(0, Math.round((today - SEM_START) / 86400000));
+    const semDaysLeft = Math.max(0, Math.round((SEM_END - today) / 86400000));
+
+    const acmStart = new Date(2026, 5, 23);
+    const acmDayNum = Math.round((today - acmStart) / 86400000) + 1;
+    const acmDaysLeft = Math.max(0, Math.round((ACM_END - today) / 86400000));
+    const acmActive = today >= acmStart && today <= ACM_END;
+
+    const examDaysLeft = Math.max(0, Math.round((EXAM_START - today) / 86400000));
+    const midtermStart = new Date(2026, 7, 13);
+    const midtermDaysLeft = Math.max(0, Math.round((midtermStart - today) / 86400000));
+
+    const container = document.getElementById("daysCounterBar");
+    container.innerHTML = `
+      <div class="dc-block sem">
+        <div class="dc-num" style="color:var(--teal)">${semDaysPassed}</div>
+        <div class="dc-label">Days in sem</div>
+      </div>
+      <div class="dc-divider"></div>
+      <div class="dc-block sem">
+        <div class="dc-num" style="color:var(--ink)">${semDaysLeft}</div>
+        <div class="dc-label">Sem days left</div>
+      </div>
+      <div class="dc-divider"></div>
+      <div class="dc-block acm">
+        <div class="dc-num" style="color:var(--clay)">${acmActive ? acmDaysLeft : (today < acmStart ? Math.round((acmStart-today)/86400000) : "—")}</div>
+        <div class="dc-label">${acmActive ? "ACM days left" : today < acmStart ? "ACM starts in" : "ACM done"}</div>
+      </div>
+      <div class="dc-divider"></div>
+      <div class="dc-block exam">
+        <div class="dc-num" style="color:var(--${midtermDaysLeft > 0 ? 'amber' : 'red'})">${midtermDaysLeft > 0 ? midtermDaysLeft : examDaysLeft}</div>
+        <div class="dc-label">${midtermDaysLeft > 0 ? "To midterms" : "To end-sem"}</div>
+      </div>
+    `;
+  }
+
+  // ============================================================
+  // ACM SIGAI PANEL
+  // ============================================================
+  function renderAcmPanel() {
+    const ACM_START_D = new Date(2026, 5, 23);
+    const ACM_END_D   = new Date(2026, 6, 13);
+    const dayNum = Math.round((today - ACM_START_D) / 86400000) + 1;
+    const daysLeft = Math.max(0, Math.round((ACM_END_D - today) / 86400000));
+    const isActive = today >= ACM_START_D && today <= ACM_END_D;
+    const isPre    = today < ACM_START_D;
+    const isDone   = today > ACM_END_D;
+    const pct = Math.min(100, Math.max(0, Math.round(((dayNum-1)/21)*100)));
+
+    // Counter card
+    const counterEl = document.getElementById("acmCounter");
+    let dayLabel, dayDesc;
+    if (isPre) {
+      dayLabel = "Starts Jun 23";
+      dayDesc  = "Classes begin Jun 22. ACM 21-day plan kicks off the next day.";
+    } else if (isDone) {
+      dayLabel = "Complete";
+      dayDesc  = "21-day plan finished. Interview stage — be ready to walk through your pipeline.";
+    } else {
+      dayLabel = `Day ${Math.min(dayNum, 21)} of 21`;
+      if (dayNum <= 7) dayDesc = "Week 1 — Self study: Kaggle courses, no deliverables yet.";
+      else if (dayNum <= 14) dayDesc = "Week 2 — Individual tasks. Feature Engineering Challenge + chosen task due Day 14.";
+      else if (dayNum <= 17) dayDesc = "Week 3 self-study — Neural Networks, CNNs. Form your team by today.";
+      else dayDesc = "Week 3 build — Team cascaded pipeline. Design doc due Day 18, final submit Day 21.";
+    }
+
+    counterEl.innerHTML = `
+      <div class="acm-day-big">${isPre ? "D1" : isDone ? "✓" : Math.min(dayNum,21)}</div>
+      <div class="acm-day-info">
+        <h3>${dayLabel}</h3>
+        <p>${dayDesc}</p>
+        <div class="acm-progress-mini">
+          <div style="font-family:var(--font-mono);font-size:10px;opacity:0.6">${isPre ? "Not started" : isDone ? "All done" : `${pct}% through · ${daysLeft} day${daysLeft===1?'':'s'} left`}</div>
+          <div class="acm-mini-track"><div class="acm-mini-fill" style="width:${isPre?0:isDone?100:pct}%"></div></div>
+        </div>
+      </div>
+    `;
+
+    // Week plan
+    const weeks = [
+      {
+        num: "Week 1", title: "Self Study", range: "Jun 23 – Jun 29 (Days 1–7)",
+        tasks: [
+          { day: "Days 1–7", title: "Kaggle courses — Intro to ML + Intermediate ML", desc: "~8 hours total. Topics: Intro to ML, Data Preprocessing & EDA, Linear Models, Feature Engineering, Tree Models & Ensembles, Hyperparameter Tuning. No deliverables — pure learning.", isDeadline: false },
+        ]
+      },
+      {
+        num: "Week 2", title: "Individual Tasks", range: "Jun 30 – Jul 6 (Days 8–14)",
+        tasks: [
+          { day: "Days 8–14", title: "Study: ML Pipelines, PCA, SHAP, Model Evaluation", desc: "Advanced Feature Engineering and Cascaded Thinking. Work through these concepts before tackling the tasks.", isDeadline: false },
+          { day: "Day 14 — Jul 6", title: "🔴 Mandatory: Feature Engineering Challenge", desc: "Santander dataset. Improve Logistic Regression Recall from 0.83 → 0.88+. Submit: code + experiment log + short report.", isDeadline: true },
+          { day: "Day 14 — Jul 6", title: "🔴 Choose one: Regression / Classification / Ensemble Study", desc: "Task 1 (Regression), Task 2 (Classification), or Task 3 (Ensemble Study). Submit: code + report + dataset link.", isDeadline: true },
+        ]
+      },
+      {
+        num: "Week 3", title: "Deep Learning + Team Project", range: "Jul 7 – Jul 13 (Days 15–21)",
+        tasks: [
+          { day: "Days 15–17 (Jul 7–9)", title: "Self study: Neural Networks, Backpropagation, CNNs", desc: "Form your 2–3 person team by Day 17. Scope the cascaded pipeline during this window — what two models will you chain and why?", isDeadline: false },
+          { day: "Day 18 — Jul 10", title: "🔴 Pipeline design document due", desc: "Architecture design doc: model choices, data flow, dataset link, expected outputs. Submit before building begins.", isDeadline: true },
+          { day: "Days 18–21 (Jul 10–13)", title: "Team project build", desc: "Build the cascaded ML pipeline (2+ models in sequence) with your team.", isDeadline: false },
+          { day: "Day 21 — Jul 13", title: "🔴 Final project submission + interview incoming", desc: "Submit: code, report, architecture diagram, dataset link, 10-minute demo. Interview follows — prepare to walk through pipeline decisions, SHAP explanations, cascade ordering choices.", isDeadline: true },
+        ]
+      }
+    ];
+
+    document.getElementById("acmPlanList").innerHTML = weeks.map(w => `
+      <div class="acm-week-block">
+        <div class="acm-week-head">
+          <span class="acm-week-num">${w.num}</span>
+          <span class="acm-week-title">${w.title}</span>
+          <span class="acm-week-range">${w.range}</span>
+        </div>
+        ${w.tasks.map(t => `
+          <div class="acm-task ${t.isDeadline ? "is-deadline" : ""}">
+            <div class="acm-task-day">${t.day}</div>
+            <div class="acm-task-title">${t.title}</div>
+            <div class="acm-task-desc">${t.desc}</div>
+            <div class="acm-task-tags">
+              ${t.isDeadline ? `<span class="acm-task-tag c-amber-bg c-amber-text">Deliverable</span>` : `<span class="acm-task-tag c-clay-bg c-clay-text">ACM</span>`}
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    `).join("");
+  }
+
+
   function init() {
     initTheme();
     initTabs();
     renderTodayPill();
+    renderDaysCounter();
     renderHero();
     renderTodayClasses();
     renderUpcoming();
     renderPhaseStatus();
+    renderAcmPanel();
     renderLegend();
     renderWeekGrid();
     renderFilterChips();

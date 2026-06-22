@@ -641,7 +641,98 @@ body {
 }
 .phase-card.is-current { border-color: var(--clay); border-width: 2px; }
 
-/* ============ FOOTER ============ */
+/* ============ DAYS COUNTER BAR ============ */
+.days-counter-bar {
+  max-width: 880px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  gap: 0;
+  padding: 0 18px 0;
+  overflow: hidden;
+}
+.dc-block {
+  flex: 1;
+  text-align: center;
+  padding: 10px 6px;
+  border-bottom: 3px solid transparent;
+}
+.dc-block.sem { border-color: var(--teal); }
+.dc-block.acm { border-color: var(--clay); }
+.dc-block.exam { border-color: var(--red); }
+.dc-num {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+}
+.dc-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-faint);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.dc-divider { width: 1px; background: var(--rule); margin: 8px 0; }
+
+/* ============ ACM SIGAI PANEL ============ */
+.acm-counter-wrap {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 0;
+  align-items: center;
+}
+.acm-day-big {
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--clay);
+  min-width: 80px;
+}
+.acm-day-info { flex: 1; padding-left: 16px; border-left: 1px solid rgba(255,255,255,0.15); }
+.acm-day-info h3 { font-family: var(--font-display); font-size: 17px; font-weight: 600; }
+.acm-day-info p { font-size: 13px; opacity: 0.75; margin-top: 4px; line-height: 1.5; }
+.acm-progress-mini { margin-top: 10px; }
+.acm-mini-track { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.15); overflow: hidden; margin-top: 4px; }
+.acm-mini-fill { height: 100%; background: var(--clay); border-radius: 3px; transition: width 0.3s; }
+
+.acm-week-block { margin-bottom: 20px; }
+.acm-week-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 10px;
+}
+.acm-week-num {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 13px;
+  background: var(--clay-bg); color: var(--clay-text);
+  padding: 3px 10px; border-radius: 20px;
+}
+.acm-week-title { font-size: 14px; font-weight: 700; }
+.acm-week-range { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); margin-left: auto; }
+
+.acm-task {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--clay);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 11px 14px;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow-card);
+}
+.acm-task.is-deadline { border-left-color: var(--amber); }
+.acm-task-day { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); margin-bottom: 2px; }
+.acm-task-title { font-size: 13.5px; font-weight: 700; }
+.acm-task-desc { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; line-height: 1.55; }
+.acm-task-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.acm-task-tag { font-size: 10.5px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+
+
 .app-footer {
   text-align: center;
   padding: 20px;
@@ -659,8 +750,6 @@ body {
 .c-gray-bg { background: var(--gray-bg); } .c-gray-text { color: var(--gray-text); } .c-gray-dot { background: var(--gray); }
 .c-red-bg { background: var(--red-bg); } .c-red-text { color: var(--red-text); } .c-red-dot { background: var(--red); }
 .c-clay-bg { background: var(--clay-bg); } .c-clay-text { color: var(--clay-text); } .c-clay-dot { background: var(--clay); }
-
-.border-blue { border-left-color: var(--blue) !important; }
 .border-teal { border-left-color: var(--teal) !important; }
 .border-amber { border-left-color: var(--amber) !important; }
 .border-purple { border-left-color: var(--purple) !important; }

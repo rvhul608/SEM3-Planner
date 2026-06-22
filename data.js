@@ -149,8 +149,25 @@ const PHASES = [
   },
 ];
 
-// Project / hackathon / fellowship timeline (kept lean — Kaggle and HAC'KP removed per latest instruction)
+// ACM SIGAI 21-Day Recruitment Plan — starts June 23
+const ACM_START = "2026-06-23";
+// Day N date helper (1-indexed)
+function acmDay(n) {
+  const d = new Date(2026, 5, 22 + n); // Jun 23 = day 1 → Jun 22 + 1
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+}
+
+// Project / hackathon / fellowship timeline
 const TIMELINE = [
+  // ── ACM SIGAI RECRUITMENT ──────────────────────────────────
+  { date: acmDay(1), end: acmDay(7), type: "acm", title: "ACM SIGAI Week 1 — Self Study", desc: "Kaggle Intro to ML + Intermediate ML (~8 hrs total). Topics: Intro to ML, Data Preprocessing & EDA, Linear Models, Feature Engineering, Tree Models & Ensembles, Hyperparameter Tuning. Pure learning — no deliverables.", tags: ["ACM","Week 1","Kaggle courses"] },
+  { date: acmDay(8), end: acmDay(14), type: "acm", title: "ACM SIGAI Week 2 — Individual Tasks", desc: "Topics: ML Pipelines, PCA, Advanced Feature Engineering, SHAP, Model Evaluation, Cascaded Thinking. Mandatory: Feature Engineering Challenge on Santander dataset (improve Logistic Regression Recall 0.83→0.88+, submit code + experiment log + report). Plus one of: Task 1 Regression, Task 2 Classification, or Task 3 Ensemble Study.", tags: ["ACM","Week 2","Deliverables due Day 14"] },
+  { date: acmDay(14), type: "deadline", title: "ACM Day 14 — Feature Engineering Challenge due", desc: "Santander dataset — Logistic Regression Recall must reach 0.88+. Submit: code + experiment log + short report. Also submit your chosen individual task (Regression / Classification / Ensemble Study).", tags: ["ACM","Deadline","Don't miss"] },
+  { date: acmDay(15), end: acmDay(17), type: "acm", title: "ACM SIGAI Week 3 — Deep Learning self study", desc: "Days 15–17: Neural Networks, Backpropagation, CNNs. Self-study before the team project begins. Also: assemble your 2–3 person team by Day 17 and start scoping the cascaded pipeline.", tags: ["ACM","Week 3","Self study"] },
+  { date: acmDay(18), type: "deadline", title: "ACM Day 18 — Pipeline design doc due", desc: "Team project: cascaded ML pipeline (2+ models in sequence). Submit the architecture design document today before building begins. Include model choices, data flow, dataset link, and expected outputs.", tags: ["ACM","Deadline"] },
+  { date: acmDay(18), end: acmDay(21), type: "acm", title: "ACM SIGAI Days 18–21 — Team project build", desc: "Build the cascaded ML pipeline with your team (2–3 people). Final deliverables: code, report, architecture diagram, dataset link, and a 10-minute demo video.", tags: ["ACM","Team project"] },
+  { date: acmDay(21), type: "deadline", title: "ACM Day 21 — Final project due + interview prep", desc: "Submit: code, report, architecture diagram, dataset link, 10-min demo. After submission, expect an interview. Prepare to walk through your pipeline decisions, SHAP explanations, and why you chose your cascade order.", tags: ["ACM","Final deadline","Interview incoming"] },
+  // ── MAIN TIMELINE ─────────────────────────────────────────
   { date: "2026-06-17", end: "2026-06-21", type: "build", title: "DecideWise AI — clean rebuild", desc: "pdfplumber extraction, FastAPI backend, Streamlit UI, three prompt modes (tactical/practical/strategic), deployed to HuggingFace Spaces.", tags: ["Build","~1 week"] },
   { date: "2026-07-01", type: "deadline", title: "ISRO idea submission — hard deadline", desc: "Bharatiya Antariksh Hackathon, Topic #4: Road Extraction & Route Resilience. Written concept only, no prototype needed.", tags: ["Deadline","Don't miss"] },
   { date: "2026-07-01", end: "2026-07-20", type: "fellowship", title: "Find LFX open source repos", desc: "Projects list drops Jul 1. Identify target CNCF repo (NetworkX, OSMnx, FastAPI ecosystem). Submit 2–3 PRs. Must be merged before Aug 3.", tags: ["Critical path","Start immediately"] },
@@ -187,6 +204,7 @@ const TIMELINE_TYPES = {
   dsa:        { label: "DSA/Learn",   color: "purple" },
   exam:       { label: "Exam",        color: "red" },
   milestone:  { label: "Milestone",   color: "gray" },
+  acm:        { label: "ACM SIGAI",   color: "clay" },
 };
 
 const INTERNSHIPS = [

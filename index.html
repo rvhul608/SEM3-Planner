@@ -35,12 +35,15 @@
   <!-- ============ NAV TABS ============ -->
   <nav class="tabs" id="tabNav">
     <button class="tab active" data-tab="today">Today</button>
+    <button class="tab" data-tab="acm">ACM SIGAI</button>
     <button class="tab" data-tab="week">Weekly Grid</button>
     <button class="tab" data-tab="timeline">Timeline</button>
     <button class="tab" data-tab="internships">Internships</button>
     <button class="tab" data-tab="dsa">DSA Tracker</button>
     <button class="tab" data-tab="phases">Phases</button>
   </nav>
+
+  <div class="days-counter-bar" id="daysCounterBar"></div>
 
   <main class="content">
 
@@ -82,6 +85,16 @@
       <div class="week-scroll">
         <div class="week-grid" id="weekGrid"></div>
       </div>
+    </section>
+
+    <!-- ============ ACM SIGAI VIEW ============ -->
+    <section class="panel" id="panel-acm">
+      <div class="section-intro">
+        <h2>ACM SIGAI Recruitment — 21 Day Plan</h2>
+        <p>Starts June 23. Three weeks: self-study → individual tasks → team project + demo. Interview follows Day 21 submission.</p>
+      </div>
+      <div class="acm-counter-wrap" id="acmCounter"></div>
+      <div id="acmPlanList"></div>
     </section>
 
     <!-- ============ TIMELINE VIEW ============ -->
